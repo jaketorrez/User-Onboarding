@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import yup from "yup";
+import {v4 as uuid} from "uuid";
 import './App.css';
+import Form from "./Form";
 
 function App() {
+// Static variables
+  const initialValue = {
+    id: "", name: "", email: "", password: "", terms: false};
+
+// State variables
+  const [user, setUser] = useState(initialValue);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+
+      <main class="main-content">
+        <section class="form">
+          <Form 
+          user={}
+          handleChange={}
+          handleSubmit={} />
+        </section>
+      </main>
     </div>
   );
 }
