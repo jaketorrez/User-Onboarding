@@ -12,11 +12,12 @@ export default function Form(props) {
 
     return (
         <form onSubmit={ event => handleSubmit(event)}>
-            <h2>Create a Free Account</h2>
+            <h2>Enter user info below</h2>
             <label htmlFor="Name">
                 Name:
                 <input type="text"
                 name="name"
+                placeholder="Your Name"
                 value={user.name}
                 onChange={event => handleInputChange(event)} />
             </label> <br />
@@ -26,6 +27,7 @@ export default function Form(props) {
                 Email:
                 <input type="email"
                 name="email"
+                placeholder="example@example.com"
                 value={user.email}
                 onChange={event => handleInputChange(event)} />
             </label> <br />

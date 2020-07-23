@@ -18,6 +18,7 @@ const API_URL = "https://reqres.in/api/users";
   const [users, setUsers] = useState([]);
   const [errors, setErrors] = useState(initialError);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [posts, setPosts] = useState({});
 
     // Form schema for validation
   const formSchema = Yup.object().shape({
@@ -71,11 +72,26 @@ const API_URL = "https://reqres.in/api/users";
     event.preventDefault();
     const newUser = {id: uuid(), name: user.name,
       email: user.email, password: user.password, terms: user.terms};
-      users.push(newUser);
-      setUsers(users);
-      setUser(initialUser);
+    users.push(newUser);
+    setUsers(users);
+    setUser(initialUser);
+
+    // Post user data to dummie api
   }
 
+  // Function for posting users to a dummie api
+  function postUsers() {
+    axios.post(API_URL, users)
+    .then(resp => {
+      setPosts(resp);
+    }).catch(err => {
+      console.err(err);
+    });
+  }
+
+  useEffect(() => {
+    postUsers();
+  }, [Form]);
 
 // Check user state against form schema
   useEffect(() => {
@@ -103,10 +119,16 @@ const API_URL = "https://reqres.in/api/users";
         </section>
 
         <section className="display-users">
-          {users.length > 0 ?
+          {users && users.length > 0 ?
         users.map(user => {
           return (
+            <section className="display-posts">
             <h5>{user.name} just signed up!</h5>
+            <pre>
+              {JSON.stringify(posts)}
+            </pre>
+            <hr />
+            </section>
           );
         })
       : null }
