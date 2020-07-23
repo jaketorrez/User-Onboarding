@@ -44,6 +44,7 @@ export default function Form(props) {
                 I accept the terms and conditions.
                 <input type="checkbox"
                 name="terms"
+                value={user.terms}
                 onChange={event => handleCheckboxChange(event)} />
             </label> <br />
             {errors.terms.length > 0 ? <p>{errors.terms}</p> : null}

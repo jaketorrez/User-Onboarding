@@ -32,11 +32,10 @@ const API_URL = "https://reqres.in/api/users";
     password: Yup.string()
     .min(8, "Your password must be at least 8 characters long.")
     .required("Password is required"),
-    terms: Yup.bool()
-    .test("terms", "You must accept the terms and conditions.", valid => {
-      return valid === true;
-    }).required("You must accept the terms and conditions.")
-  });
+
+    terms: Yup.boolean()
+    .oneOf([true], "You must accept the terms and conditions.")
+    });
 
 
   // Change handler functions
@@ -57,18 +56,15 @@ const API_URL = "https://reqres.in/api/users";
   }
 
   function handleCheckboxChange(event) {
-    event.persist();
-    const inputValue = !(user.terms);
-
-    // Validate the input
+    const inputValue = event.target.checked;
     Yup.reach(formSchema, "terms")
     .validate(inputValue)
     .then(valid => {
-      setErrors({ ...errors, terms: ""})
+      setErrors({ ...errors, terms: ""});
     }).catch(err => {
-      setErrors({ ...errors, terms: err.errors[0]})
+      setErrors({ ...errors, terms: err.errors[0]});
     });
-    setUser({ ...user, terms: inputValue });
+    setUser({ ...user, terms: inputValue});
   }
 
   function handleSubmit(event) {
