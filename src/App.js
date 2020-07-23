@@ -32,8 +32,10 @@ const API_URL = "https://reqres.in/api/users";
     password: Yup.string()
     .min(8, "Your password must be at least 8 characters long.")
     .required("Password is required"),
-    terms: Yup.boolean()
-    .oneOf([true], "You must agree to the terms of service.")
+    terms: Yup.bool()
+    .test("terms", "You must accept the terms and conditions.", valid => {
+      return valid === true;
+    }).required("You must accept the terms and conditions.")
   });
 
 
@@ -42,7 +44,8 @@ const API_URL = "https://reqres.in/api/users";
     event.persist();
     const inputName = event.target.name;
     const inputValue = event.target.value;
-    // Validate the input data
+
+    // Validate the input
     Yup.reach(formSchema, inputName)
     .validate(inputValue)
     .then(valid => {
@@ -53,10 +56,25 @@ const API_URL = "https://reqres.in/api/users";
     setUser({ ...user, [inputName]: inputValue});
   }
 
+  function handleCheckboxChange(event) {
+    event.persist();
+    const inputValue = !(user.terms);
+
+    // Validate the input
+    Yup.reach(formSchema, "terms")
+    .validate(inputValue)
+    .then(valid => {
+      setErrors({ ...errors, terms: ""})
+    }).catch(err => {
+      setErrors({ ...errors, terms: err.errors[0]})
+    });
+    setUser({ ...user, terms: inputValue });
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     const newUser = {id: uuid(), name: user.name,
-      email: user.email, password: user.password, terms: false};
+      email: user.email, password: user.password, terms: user.terms};
       users.push(newUser);
       setUsers(users);
       setUser(initialUser);
@@ -83,8 +101,9 @@ const API_URL = "https://reqres.in/api/users";
       user={user}
       errors={errors}
             handleInputChange={handleInputChange}
+            handleCheckboxChange={handleCheckboxChange}
           handleSubmit={handleSubmit}
-          setButtonDisabled={setButtonDisabled} />
+          buttonDisabled={buttonDisabled} />
         </section>
 
         <section className="display-users">

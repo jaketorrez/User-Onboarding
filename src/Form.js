@@ -5,8 +5,9 @@ export default function Form(props) {
         user,
         errors,
         handleInputChange,
+        handleCheckboxChange,
         handleSubmit,
-        setButtonDisabled
+        buttonDisabled
     } = props;
 
     return (
@@ -23,7 +24,7 @@ export default function Form(props) {
 
             <label htmlFor="Email">
                 Email:
-                <input type="text"
+                <input type="email"
                 name="email"
                 value={user.email}
                 onChange={event => handleInputChange(event)} />
@@ -43,12 +44,13 @@ export default function Form(props) {
                 I accept the terms and conditions.
                 <input type="checkbox"
                 name="terms"
-                value={user.terms}
-                onChange={event => handleInputChange(event)} />
+                onChange={event => handleCheckboxChange(event)} />
             </label> <br />
             {errors.terms.length > 0 ? <p>{errors.terms}</p> : null}
 
-            <button disabled={value => setButtonDisabled(value) }>Submit!</button>
+            <button disabled={buttonDisabled}>
+                Submit!
+            </button>
         </form>
     );
 }
