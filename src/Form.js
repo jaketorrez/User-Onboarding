@@ -3,35 +3,52 @@ import React, { useReducer } from "react";
 export default function Form(props) {
     const {
         user,
-        handleChange,
-        handleSubmit
+        errors,
+        handleInputChange,
+        handleSubmit,
+        setButtonDisabled
     } = props;
 
     return (
         <form onSubmit={ event => handleSubmit(event)}>
-            <label>Name:
+            <h2>Create a Free Account</h2>
+            <label htmlFor="Name">
+                Name:
                 <input type="text"
                 name="name"
-                value={user.name} />
-            </label>
+                value={user.name}
+                onChange={event => handleInputChange(event)} />
+            </label> <br />
+            {errors.name.length > 0 ? <p>{errors.name}</p> : null}
 
-            { /* <label>Email:
+            <label htmlFor="Email">
+                Email:
                 <input type="text"
                 name="email"
-                value={user.email} />
-            </label> */ }
+                value={user.email}
+                onChange={event => handleInputChange(event)} />
+            </label> <br />
+            {errors.email.length > 0 ? <p>{errors.email}</p> : null}
 
-            { /* <label>Password:
-                <input type="text"
+            <label htmlFor="Password">
+                Password:
+                <input type="password"
                 name="password"
-                value={user.password} />
-            </label> */ }
+                value={user.password}
+                onChange={event => handleInputChange(event)} />
+            </label> <br />
+            {errors.password.length > 0 ? <p>{errors.password}</p> : null}
 
-            { /* <label>I accept the terms and services.
+            <label htmlFor="terms">
+                I accept the terms and conditions.
                 <input type="checkbox"
-                name="terms of service"
-                value="1" />
-            </label> */ }</label>
+                name="terms"
+                value={user.terms}
+                onChange={event => handleInputChange(event)} />
+            </label> <br />
+            {errors.terms.length > 0 ? <p>{errors.terms}</p> : null}
+
+            <button disabled={value => setButtonDisabled(value) }>Submit!</button>
         </form>
     );
 }
