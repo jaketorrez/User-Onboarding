@@ -23,11 +23,11 @@ const API_URL = "https://reqres.in/api/users";
     // Form schema for validation
   const formSchema = Yup.object().shape({
     name: Yup.string()
-    .min(2, "Your name must be at least 2 characters long.")
+    .max(26, "Your name must be no more than 26 characters long.")
     .required("Name is required."),
 
     email: Yup.string()
-    .email("johndoe@gmail.com")
+    .email("example@example.com")
     .required("Email is required."),
 
     password: Yup.string()
